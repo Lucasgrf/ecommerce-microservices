@@ -1321,7 +1321,7 @@ services:
 
   # ==================== MICROSERVICES ====================
   api-gateway:
-    build: ./api-gateway
+    build: ../api-gateway
     container_name: api-gateway
     ports:
       - "8080:8080"
@@ -1335,7 +1335,7 @@ services:
       - ecommerce-network
 
   user-service:
-    build: ./user-service
+    build: ../user-service
     container_name: user-service
     ports:
       - "8081:8081"
@@ -1352,7 +1352,7 @@ services:
       - ecommerce-network
 
   product-service:
-    build: ./product-service
+    build: ../product-service
     container_name: product-service
     ports:
       - "8082:8082"
@@ -1371,7 +1371,7 @@ services:
       - ecommerce-network
 
   order-service:
-    build: ./order-service
+    build: ../order-service
     container_name: order-service
     ports:
       - "8083:8083"
@@ -1392,7 +1392,7 @@ services:
       - ecommerce-network
 
   notification-service:
-    build: ./notification-service
+    build: ../notification-service
     container_name: notification-service
     ports:
       - "8084:8084"
