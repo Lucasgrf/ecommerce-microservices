@@ -18,9 +18,6 @@
   - [ ] Gerar Token JWT com claims (roles).
   - [ ] Retornar Token no body ou header.
 
-### PB-004: Configuração de Segurança
-- **Estimativa**: 2 dias
-- **Detalhes**: Configurar Spring Security Filter Chain.
 
 ### PB-025: API Gateway Config
 - **Estimativa**: 1 dia
@@ -33,16 +30,7 @@
 *(Nenhum item em progresso no momento)*
 
 
-### PB-001: Setup inicial `user-service`
-- **Início**: 05/01/2026
-- **Responsável**: Lucas
-- **Branch**: `feat/PB-001-setup-user-service` (à criar)
-- **Checklist de Implementação**:
-  - [x] Criar estrutura do projeto (Spring Initializr/Manual).
-  - [x] Configurar `pom.xml` (JPA, Security, Lombok).
-  - [ ] Configurar `application.yaml` (Conexão DB).
-  - [ ] Criar pacote `com.lucasgrf.userservice`.
-  - [ ] Rodar aplicação sem erros ("Hello World" do Spring context).
+*(Nenhum item em progresso no momento)*
 
 ---
 
@@ -72,6 +60,17 @@
   - [x] Integração: Controller -> Database (H2 ou Testcontainers).
 
 *(Nenhum item em review no momento)*
+
+### PB-004: Configuração de Segurança (Spring Security)
+- **Estimativa**: 3 dias
+- **Branch**: `feat/PB-004-security-config`
+- **Critérios de Aceite**:
+  - [x] Implementar `JwtAuthenticationFilter`.
+  - [x] Validar token em rotas protegidas.
+  - [x] Configurar sessão como STATELESS.
+- **Testes**:
+  - [x] Unitário: Filter.
+  - [x] Integração: Tentar acessar rota sem token (403) (Manual).
 
 
 ### PB-001: Setup inicial `user-service`
