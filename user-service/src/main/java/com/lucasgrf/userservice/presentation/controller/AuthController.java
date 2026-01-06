@@ -4,6 +4,9 @@ import com.lucasgrf.userservice.application.dto.LoginDTO;
 import com.lucasgrf.userservice.application.dto.TokenResponseDTO;
 import com.lucasgrf.userservice.application.usecase.LoginUseCase;
 import com.lucasgrf.userservice.application.dto.UserRegistrationDTO;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.web.bind.annotation.GetMapping;
 import com.lucasgrf.userservice.application.dto.UserResponseDTO;
 import com.lucasgrf.userservice.application.usecase.RegisterUserUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -38,5 +41,11 @@ public class AuthController {
     public ResponseEntity<TokenResponseDTO> login(@Valid @RequestBody LoginDTO dto) {
         TokenResponseDTO response = loginUseCase.execute(dto);
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/me")
+    @Operation(summary = "Get current user", description = "Returns details of the currently authenticated user")
+    public ResponseEntity<String> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok("Hello, " + userDetails.getUsername() + "!");
     }
 }
