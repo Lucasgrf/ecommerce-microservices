@@ -10,15 +10,6 @@
 
 ## 📝 To Do
 
-### PB-002: Cadastro de usuários (`/register`)
-- **Estimativa**: 2 dias
-- **Critérios de Aceite**:
-  - [ ] Validar campos obrigatórios (email, senha).
-  - [ ] Encriptar senha antes de salvar.
-  - [ ] Retornar 201 Created.
-- **Testes**:
-  - [ ] Unitário: Service (mock repository).
-  - [ ] Integração: Controller -> Database (H2 ou Testcontainers).
 
 ### PB-003: Login e JWT (`/login`)
 - **Estimativa**: 2 dias
@@ -39,6 +30,9 @@
 
 ## 🚧 In Progress
 
+*(Nenhum item em progresso no momento)*
+
+
 ### PB-001: Setup inicial `user-service`
 - **Início**: 05/01/2026
 - **Responsável**: Lucas
@@ -53,6 +47,28 @@
 ---
 
 ## 🔍 Code Review
+
+### PB-003: Login e JWT (`/login`)
+- **Estimativa**: 2 dias
+- **Branch**: `feat/PB-003-auth-login`
+- **Critérios de Aceite**:
+  - [x] Validar credenciais (email/senha).
+  - [x] Gerar Token JWT com 1h de validade.
+  - [x] Incluir claims: `sub` (email), `roles`.
+- **Testes**:
+  - [x] Unitário: Validar geração de token.
+  - [x] Integração: Endpoint `/login` (Verificado manualmente).
+
+### PB-002: Cadastro de usuários (`/register`)
+- **Estimativa**: 2 dias
+- **Branch**: `feat/PB-002-user-register`
+- **Critérios de Aceite**:
+  - [x] Validar campos obrigatórios (email, senha).
+  - [x] Encriptar senha antes de salvar.
+  - [x] Retornar 201 Created.
+- **Testes**:
+  - [x] Unitário: Service (mock repository).
+  - [x] Integração: Controller -> Database (H2 ou Testcontainers).
 
 *(Nenhum item em review no momento)*
 
