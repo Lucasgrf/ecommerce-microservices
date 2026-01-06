@@ -39,22 +39,24 @@
 
 ## 🚧 In Progress
 
-### PB-001: Setup inicial `user-service`
-- **Início**: 05/01/2026
-- **Responsável**: Lucas
-- **Branch**: `feat/PB-001-setup-user-service` (à criar)
-- **Checklist de Implementação**:
-  - [x] Criar estrutura do projeto (Spring Initializr/Manual).
-  - [x] Configurar `pom.xml` (JPA, Security, Lombok).
-  - [ ] Configurar `application.yaml` (Conexão DB).
-  - [ ] Criar pacote `com.lucasgrf.userservice`.
-  - [ ] Rodar aplicação sem erros ("Hello World" do Spring context).
+*(Nenhum item em progresso no momento)*
 
 ---
 
 ## 🔍 Code Review
 
-*(Nenhum item em review no momento)*
+
+### PB-001: Setup inicial `user-service`
+- **Início**: 06/01/2026
+- **Responsável**: Guilherme
+- **Branch**: `feat/PB-001-setup-user-service`
+- **Checklist de Implementação**:
+  - [x] Criar estrutura do projeto (Spring Initializr/Manual).
+  - [x] Configurar `pom.xml` (JPA, Security, Lombok).
+  - [x] Configurar `application.yaml` (Conexão DB).
+  - [x] Criar pacote `com.lucasgrf.userservice`.
+  - [x] Rodar aplicação sem erros.
+
 
 ---
 
