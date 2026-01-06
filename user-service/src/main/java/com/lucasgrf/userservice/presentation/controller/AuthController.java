@@ -1,12 +1,6 @@
 package com.lucasgrf.userservice.presentation.controller;
 
-import com.lucasgrf.userservice.application.dto.LoginDTO;
-import com.lucasgrf.userservice.application.dto.TokenResponseDTO;
-import com.lucasgrf.userservice.application.usecase.LoginUseCase;
 import com.lucasgrf.userservice.application.dto.UserRegistrationDTO;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.GetMapping;
 import com.lucasgrf.userservice.application.dto.UserResponseDTO;
 import com.lucasgrf.userservice.application.usecase.RegisterUserUseCase;
 import io.swagger.v3.oas.annotations.Operation;
@@ -23,29 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/v1/auth")
 @RequiredArgsConstructor
-@Tag(name = "Authentication", description = "Endpoints for user authentication and registration")
+@Tag(name = "Authentication", description = "Endpoints for user registration")
 public class AuthController {
 
     private final RegisterUserUseCase registerUserUseCase;
-    private final LoginUseCase loginUseCase;
 
     @PostMapping("/register")
     @Operation(summary = "Register a new user", description = "Creates a new user account with email and password")
     public ResponseEntity<UserResponseDTO> register(@Valid @RequestBody UserRegistrationDTO dto) {
         UserResponseDTO response = registerUserUseCase.execute(dto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
-    }
-
-    @PostMapping("/login")
-    @Operation(summary = "Authenticate user", description = "Validates credentials and returns a JWT token")
-    public ResponseEntity<TokenResponseDTO> login(@Valid @RequestBody LoginDTO dto) {
-        TokenResponseDTO response = loginUseCase.execute(dto);
-        return ResponseEntity.ok(response);
-    }
-
-    @GetMapping("/me")
-    @Operation(summary = "Get current user", description = "Returns details of the currently authenticated user")
-    public ResponseEntity<String> getCurrentUser(@AuthenticationPrincipal UserDetails userDetails) {
-        return ResponseEntity.ok("Hello, " + userDetails.getUsername() + "!");
     }
 }
