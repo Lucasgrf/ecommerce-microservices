@@ -16,7 +16,7 @@
 | PB-002 | Cadastro de usuários (`/register`) | 2 dias |
 | PB-003 | Login e JWT (`/login`) | 2 dias |
 | PB-004 | Configuração de Segurança (Spring Security) | 2 dias |
-| PB-025 | Configuração básica do API Gateway | 1 day |
+| PB-025 | Configuração básica do API Gateway | 1 dia |
 | **Meta** | Ambiente rodando e autenticação funcionando via Postman. | **8.5 dias** |
 
 ---
