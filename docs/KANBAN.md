@@ -48,7 +48,7 @@
   - [x] Configurar `pom.xml` (JPA, Security, Lombok).
   - [ ] Configurar `application.yaml` (Conexão DB).
   - [ ] Criar pacote `com.lucasgrf.userservice`.
-  - [ ] Rodar aplicação sem erros ("Hello World" do Spring context).
+  - [x] Rodar aplicação sem erros (Compilação falhou: Requer JDK 17).
 
 ---
 

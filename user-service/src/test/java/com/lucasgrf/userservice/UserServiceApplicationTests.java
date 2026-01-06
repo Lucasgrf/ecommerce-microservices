@@ -1,4 +1,4 @@
-package com.lucasgrf.user_service;
+package com.lucasgrf.userservice;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
