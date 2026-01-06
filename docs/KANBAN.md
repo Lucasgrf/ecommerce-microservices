@@ -47,8 +47,8 @@
 
 
 ### PB-001: Setup inicial `user-service`
-- **Início**: 05/01/2026
-- **Responsável**: Lucas
+- **Início**: 06/01/2026
+- **Responsável**: Guilherme
 - **Branch**: `feat/PB-001-setup-user-service`
 - **Checklist de Implementação**:
   - [x] Criar estrutura do projeto (Spring Initializr/Manual).
