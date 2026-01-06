@@ -59,6 +59,7 @@
   - [x] Unitário: Validar geração de token.
   - [x] Integração: Endpoint `/login` (Verificado manualmente).
 
+
 ### PB-002: Cadastro de usuários (`/register`)
 - **Estimativa**: 2 dias
 - **Branch**: `feat/PB-002-user-register`
@@ -72,6 +73,17 @@
 
 *(Nenhum item em review no momento)*
 
+
+### PB-001: Setup inicial `user-service`
+- **Início**: 05/01/2026
+- **Responsável**: Lucas
+- **Branch**: `feat/PB-001-setup-user-service`
+- **Checklist de Implementação**:
+  - [x] Criar estrutura do projeto (Spring Initializr/Manual).
+  - [x] Configurar `pom.xml` (JPA, Security, Lombok).
+  - [x] Configurar `application.yaml` (Conexão DB).
+  - [x] Criar pacote `com.lucasgrf.userservice`.
+  - [x] Rodar aplicação sem erros.
 ---
 
 ## ✅ Done
