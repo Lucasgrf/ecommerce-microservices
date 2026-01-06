@@ -39,6 +39,7 @@ services:
   mongo:
     image: mongo:6.0
     container_name: ecommerce-mongo
+    command: [ "--wiredTigerCacheSizeGB", "0.25" ]
     ports:
       - "27017:27017"
     volumes:
