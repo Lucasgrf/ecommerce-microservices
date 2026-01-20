@@ -10,10 +10,6 @@
 
 ## 📝 To Do
 
-### PB-004: Configuração de Segurança
-- **Estimativa**: 2 dias
-- **Detalhes**: Configurar Spring Security Filter Chain.
-
 ### PB-025: API Gateway Config
 - **Estimativa**: 1 dia
 - **Detalhes**: Roteamento básico para o user-service.
@@ -22,12 +18,9 @@
 
 ## 🚧 In Progress
 
-### PB-003: Login e JWT (`/login`)
+### PB-004: Configuração de Segurança
 - **Estimativa**: 2 dias
-- **Critérios de Aceite**:
-  - [ ] Validar credenciais.
-  - [ ] Gerar Token JWT com claims (roles).
-  - [ ] Retornar Token no body ou header.
+- **Detalhes**: Configurar Spring Security Filter Chain.
 
 ---
 
@@ -39,9 +32,17 @@
 
 ## ✅ Done
 
+### PB-003: Login e JWT (`/login`)
+- **Concluído em**: 19/01/2026
+- **Branch**: `feat/PB-003` (Pending)
+- **O que foi feito**:
+  - [x] Validar credenciais.
+  - [x] Gerar Token JWT com claims (roles).
+  - [x] Retornar Token no body ou header.
+
 ### PB-002: Cadastro de usuários (`/register`)
 - **Concluído em**: 19/01/2026
-- **Branch**: `main` (Direct Commit)
+- **Branch**: `feat/PB-002` (Merged)
 - **O que foi feito**:
   - [x] Validar campos obrigatórios (email, senha).
   - [x] Encriptar senha antes de salvar.
