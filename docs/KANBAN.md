@@ -10,23 +10,6 @@
 
 ## 📝 To Do
 
-### PB-002: Cadastro de usuários (`/register`)
-- **Estimativa**: 2 dias
-- **Critérios de Aceite**:
-  - [ ] Validar campos obrigatórios (email, senha).
-  - [ ] Encriptar senha antes de salvar.
-  - [ ] Retornar 201 Created.
-- **Testes**:
-  - [ ] Unitário: Service (mock repository).
-  - [ ] Integração: Controller -> Database (H2 ou Testcontainers).
-
-### PB-003: Login e JWT (`/login`)
-- **Estimativa**: 2 dias
-- **Critérios de Aceite**:
-  - [ ] Validar credenciais.
-  - [ ] Gerar Token JWT com claims (roles).
-  - [ ] Retornar Token no body ou header.
-
 ### PB-004: Configuração de Segurança
 - **Estimativa**: 2 dias
 - **Detalhes**: Configurar Spring Security Filter Chain.
@@ -39,36 +22,45 @@
 
 ## 🚧 In Progress
 
-*(Nenhum item em progresso no momento)*
+### PB-003: Login e JWT (`/login`)
+- **Estimativa**: 2 dias
+- **Critérios de Aceite**:
+  - [ ] Validar credenciais.
+  - [ ] Gerar Token JWT com claims (roles).
+  - [ ] Retornar Token no body ou header.
 
 ---
 
 ## 🔍 Code Review
 
+*(Nenhum item em review no momento)*
+
+---
+
+## ✅ Done
+
+### PB-002: Cadastro de usuários (`/register`)
+- **Concluído em**: 19/01/2026
+- **Branch**: `main` (Direct Commit)
+- **O que foi feito**:
+  - [x] Validar campos obrigatórios (email, senha).
+  - [x] Encriptar senha antes de salvar.
+  - [x] Retornar 201 Created.
+  - [x] Testes Unitários (Service).
 
 ### PB-001: Setup inicial `user-service`
-- **Início**: 06/01/2026
-- **Responsável**: Guilherme
-- **Branch**: `feat/PB-001-setup-user-service`
-- **Checklist de Implementação**:
+- **Concluído em**: 19/01/2026
+- **Branch**: `feat/PB-001-setup-user-service` (Merged)
+- **O que foi feito**:
   - [x] Criar estrutura do projeto (Spring Initializr/Manual).
   - [x] Configurar `pom.xml` (JPA, Security, Lombok).
   - [x] Configurar `application.yaml` (Conexão DB).
   - [x] Criar pacote `com.lucasgrf.userservice`.
   - [x] Rodar aplicação sem erros.
 
-
----
-
-## ✅ Done
-
 ### PB-026: Subir ambiente local (Docker Compose)
 - **Concluído em**: 05/01/2026
 - **Branch**: `fix/PB-026-mongo-optimization` (Merged)
 - **O que foi feito**:
-  - Criado `docker-compose.yml` com Postgres (5432), Mongo (27017) e RabbitMQ (5672/15672).
-  - Otimização de logs (max-file 3).
-  - Otimização de memória (limits) e cache do Mongo (wiredTiger).
-- **Validação**:
-  - `docker ps` mostrou 3 containers UP.
-  - Portas acessíveis localmente.
+  - [x] Criado `docker-compose.yml` com Postgres (5432), Mongo (27017) e RabbitMQ (5672/15672).
+  - [x] Otimização de logs e memória.
