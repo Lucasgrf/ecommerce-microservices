@@ -34,7 +34,7 @@
 
 ### PB-003: Login e JWT (`/login`)
 - **Concluído em**: 19/01/2026
-- **Branch**: `feat/PB-003` (Pending)
+- **Branch**: `feat/PB-003` (Merged)
 - **O que foi feito**:
   - [x] Validar credenciais.
   - [x] Gerar Token JWT com claims (roles).
