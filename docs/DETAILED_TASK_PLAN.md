@@ -37,6 +37,24 @@ O que a gente vai fazer agora, alinhado com o `KANBAN.md` e os arquivos de regra
 
 ---
 
-## Fase 2: O que vem depois
+## Fase 2: Catálogo de Produtos (Sprint 2)
 
-Depois que a gente matar essa parte de autenticação na Sprint 1, a gente vai usar a mesma moral de XP para fazer o `product-service`. O Swagger feito logo de cara vai salvar mó tempo na hora de ligar com um Front depois.
+Agora o foco é o `product-service`. A gente precisa entregar o Caso de Uso UC02 (Catálogo e Busca de Produtos).
+
+### 4. Setup Inicial do Product Service
+- **Task Kanban:** PB-005
+- **Serviço:** `product-service`
+- **O que é:** Criar a fundação do microserviço de produtos conectando com banco (PostgreSQL ou MongoDB, avaliar necessidade de NoSQL pelo JSON de variações) e registrar ele no Gateway.
+- **Passos (XP/TDD):**
+  1. Gerar projeto Spring Boot (`web`, `data-jpa/mongodb`, `validation`).
+  2. Arrumar `application.yaml` para rodar na porta `8082`.
+  3. Ajustar o `api-gateway` pra passar a rotear `/api/v1/products/**` pra ele.
+
+### 5. Spec do Catálogo (Swagger/SDD)
+- **Task Kanban:** PB-006
+- **Serviço:** `product-service`
+- **O que é:** Fazer o Design-First (SDD) das rotas de busca e visualização de detalhes (UC02).
+- **Passos:**
+  1. Desenhar a interface do Controller definindo endpoints de listagem paginada (`GET /api/v1/products`) e detalhes (`GET /api/v1/products/{id}`).
+  2. Documentar filtros (`?category=X`, `?priceMax=Y`) e DTOs de retorno (fotos, variações de cor/tamanho).
+  3. Checar a UI do Swagger na 8082 pra ver se o contrato tá certinho.
