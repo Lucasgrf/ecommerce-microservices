@@ -8,25 +8,44 @@
 
 ---
 
+---
+
 ## 📝 To Do
 
-### PB-025: API Gateway Config
-- **Estimativa**: 1 dia
-- **Detalhes**: Roteamento básico para o user-service.
+*(Aguardando novas Tasks de Implementação UC02)*
 
 ---
 
 ## 🚧 In Progress
 
-### PB-004: Configuração de Segurança
-- **Estimativa**: 2 dias
-- **Detalhes**: Configurar Spring Security Filter Chain.
+*(Nenhuma task ativa no momento)*
 
 ---
 
 ## 🔍 Code Review
 
-*(Nenhum item em review no momento)*
+### PB-005: Setup Inicial do Product Service
+- **Estimativa**: 1 dia
+- **Branch**: `feat/PB-005-006-product-service` (PR Aberto)
+- **Detalhes**: Criar projeto Spring Boot `product-service` ligado com MongoDB e ElasticSearch na porta 8082.
+
+### PB-006: Contratos do Catálogo (Swagger/SDD)
+- **Estimativa**: 2 dias
+- **Branch**: `feat/PB-005-006-product-service` (PR Aberto)
+- **Detalhes**: 
+  - [x] Construir interface DTOs (`/api/v1/products`) focadas no UC02 (Busca e Filtro) via Swagger Design-First.
+
+### PB-025: API Gateway Config
+- **Estimativa**: 1 dia
+- **Branch**: `feat/PB-025-api-gateway` (PR Aberto)
+- **Detalhes**: Roteamento base usando Spring Cloud Gateway Netty 8080 -> 8081.
+
+### PB-004: Configurança & Swagger OpenAPI
+- **Estimativa**: 2 dias
+- **Branch**: `feat/PB-004-swagger-security` (PR Aberto)
+- **Detalhes**: 
+  - [x] Configurar Spring Security Filter Chain e JWT Auth
+  - [x] Extrair Specs e Criar Swagger Docs (`/v3/api-docs`).
 
 ---
 
