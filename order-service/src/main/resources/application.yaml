@@ -12,3 +12,12 @@ melhor-envio:
   url: https://www.melhorenvio.com.br
   token: ${MELHOR_ENVIO_TOKEN:YOUR_MOCK_TOKEN}
   from-zip-code: "58068390"
+
+mercadopago:
+  public-key: ${MP_PUBLIC_KEY:TEST-227b3b76-9746-4194-a43b-3a7a843c6151}
+  access-token: ${MP_ACCESS_TOKEN:TEST-6047899260133376-032922-50a97b0f595c2701748880a0324e2cda-3301269587}
+  notification-url: ${MP_NOTIFICATION_URL:http://localhost:8082/payments/webhook}
+  back-urls:
+    success: ${MP_SUCCESS_URL:http://localhost:3000/payment/success}
+    failure: ${MP_FAILURE_URL:http://localhost:3000/payment/failure}
+    pending: ${MP_PENDING_URL:http://localhost:3000/payment/pending}

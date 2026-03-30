@@ -2,9 +2,9 @@ package com.lucasgrf.orderservice.application.usecase;
 
 import com.lucasgrf.orderservice.application.dto.CreateOrderInputDTO;
 import com.lucasgrf.orderservice.application.dto.OrderEvent;
-import com.lucasgrf.orderservice.application.dto.OrderItemOutputDTO;
 import com.lucasgrf.orderservice.application.dto.OrderOutputDTO;
 import com.lucasgrf.orderservice.application.port.OrderEventPublisher;
+import com.lucasgrf.orderservice.application.port.PaymentServicePort;
 import com.lucasgrf.orderservice.application.port.ProductServicePort;
 import com.lucasgrf.orderservice.application.port.ShippingServicePort;
 import com.lucasgrf.orderservice.domain.entity.Order;
@@ -28,6 +28,7 @@ public class CreateOrderUseCase {
     private final OrderRepository orderRepository;
     private final ProductServicePort productServicePort;
     private final ShippingServicePort shippingServicePort;
+    private final PaymentServicePort paymentServicePort;
     private final OrderEventPublisher orderEventPublisher;
 
     public OrderOutputDTO execute(CreateOrderInputDTO input) {
@@ -41,10 +42,10 @@ public class CreateOrderUseCase {
         input.items().forEach(itemDto -> {
             var product = productServicePort.getProductById(itemDto.productId())
                     .orElseThrow(() -> new RuntimeException("Product not found: " + itemDto.productId()));
-            
+
             OrderItem item = new OrderItem(
-                    itemDto.productId(), 
-                    itemDto.quantity(), 
+                    itemDto.productId(),
+                    itemDto.quantity(),
                     new Money(product.price())
             );
             order.addItem(item);
@@ -64,7 +65,7 @@ public class CreateOrderUseCase {
 
         Order savedOrder = orderRepository.save(order);
 
-        // Publish Event
+        // Publish domain event
         OrderEvent orderEvent = new OrderEvent(
                 savedOrder.getId().value(),
                 savedOrder.getCustomerId(),
@@ -78,21 +79,9 @@ public class CreateOrderUseCase {
         );
         orderEventPublisher.publish(orderEvent);
 
-        List<OrderItemOutputDTO> itemOutputs = savedOrder.getItems().stream()
-                .map(i -> new OrderItemOutputDTO(
-                        i.getProductId(),
-                        i.getQuantity(),
-                        i.getPrice().amount(),
-                        i.getTotal().amount()
-                )).collect(Collectors.toList());
+        // Generate Mercado Pago checkout URL (non-blocking — failure doesn't roll back order)
+        String paymentUrl = paymentServicePort.createPaymentPreference(savedOrder);
 
-        return new OrderOutputDTO(
-                savedOrder.getId().value(),
-                savedOrder.getCustomerId(),
-                savedOrder.getState().getName(),
-                savedOrder.getTotal().amount(),
-                savedOrder.getTrackingCode() != null ? savedOrder.getTrackingCode().code() : null,
-                itemOutputs
-        );
+        return OrderOutputDTO.fromWithPaymentUrl(savedOrder, paymentUrl);
     }
 }

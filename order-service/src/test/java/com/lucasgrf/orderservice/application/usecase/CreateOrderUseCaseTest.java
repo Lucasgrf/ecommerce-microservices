@@ -6,6 +6,7 @@ import com.lucasgrf.orderservice.application.dto.OrderOutputDTO;
 import com.lucasgrf.orderservice.application.dto.ProductResponseDTO;
 import com.lucasgrf.orderservice.application.dto.ShippingQuoteDTO;
 import com.lucasgrf.orderservice.application.port.OrderEventPublisher;
+import com.lucasgrf.orderservice.application.port.PaymentServicePort;
 import com.lucasgrf.orderservice.application.port.ProductServicePort;
 import com.lucasgrf.orderservice.application.port.ShippingServicePort;
 import com.lucasgrf.orderservice.domain.entity.Order;
@@ -41,6 +42,9 @@ class CreateOrderUseCaseTest {
     @Mock
     private ShippingServicePort shippingServicePort;
 
+    @Mock
+    private PaymentServicePort paymentServicePort;
+
     @InjectMocks
     private CreateOrderUseCase createOrderUseCase;
 
@@ -62,6 +66,8 @@ class CreateOrderUseCaseTest {
         when(shippingServicePort.calculateShipping(any(), any())).thenReturn(Optional.of(new ShippingQuoteDTO(
                 "1", "PAC", new BigDecimal("15.00"), 5, "Correios"
         )));
+        when(paymentServicePort.createPaymentPreference(any(Order.class)))
+                .thenReturn("https://sandbox.mercadopago.com/checkout/v1/redirect?pref_id=test-123");
 
         OrderOutputDTO output = createOrderUseCase.execute(input);
 
@@ -70,9 +76,11 @@ class CreateOrderUseCaseTest {
         assertEquals("PENDING_PAYMENT", output.state());
         assertEquals(new BigDecimal("115.00"), output.total());
         assertEquals(1, output.items().size());
+        assertNotNull(output.paymentUrl());
 
         verify(productServicePort).getProductById("prod_1");
         verify(orderRepository).save(any(Order.class));
         verify(orderEventPublisher).publish(any());
+        verify(paymentServicePort).createPaymentPreference(any(Order.class));
     }
 }
