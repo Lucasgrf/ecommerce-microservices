@@ -21,6 +21,7 @@ public class Order {
     private final Address shippingAddress;
     private final List<OrderItem> items;
     private OrderState state;
+    private Money shippingPrice;
     
     @Setter
     private TrackingCode trackingCode;
@@ -31,6 +32,7 @@ public class Order {
         this.shippingAddress = shippingAddress;
         this.items = new ArrayList<>();
         this.state = new PendingPaymentState();
+        this.shippingPrice = Money.zero();
     }
 
     public void addItem(OrderItem item) {
@@ -46,7 +48,11 @@ public class Order {
         for (OrderItem item : items) {
             total = total.add(item.getTotal());
         }
-        return total;
+        return total.add(this.shippingPrice);
+    }
+
+    public void setShippingPrice(Money shippingPrice) {
+        this.shippingPrice = shippingPrice;
     }
 
     public void changeState(OrderState newState) {

@@ -6,6 +6,7 @@ import com.lucasgrf.orderservice.application.dto.OrderItemOutputDTO;
 import com.lucasgrf.orderservice.application.dto.OrderOutputDTO;
 import com.lucasgrf.orderservice.application.port.OrderEventPublisher;
 import com.lucasgrf.orderservice.application.port.ProductServicePort;
+import com.lucasgrf.orderservice.application.port.ShippingServicePort;
 import com.lucasgrf.orderservice.domain.entity.Order;
 import com.lucasgrf.orderservice.domain.entity.OrderItem;
 import com.lucasgrf.orderservice.domain.repository.OrderRepository;
@@ -15,6 +16,7 @@ import com.lucasgrf.orderservice.domain.valueobject.OrderId;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -25,6 +27,7 @@ public class CreateOrderUseCase {
 
     private final OrderRepository orderRepository;
     private final ProductServicePort productServicePort;
+    private final ShippingServicePort shippingServicePort;
     private final OrderEventPublisher orderEventPublisher;
 
     public OrderOutputDTO execute(CreateOrderInputDTO input) {
@@ -32,6 +35,8 @@ public class CreateOrderUseCase {
         Address address = new Address(input.street(), input.city(), input.state(), input.zipCode());
 
         Order order = new Order(orderId, input.customerId(), address);
+
+        List<ShippingServicePort.ShippingItemInput> shippingItems = new ArrayList<>();
 
         input.items().forEach(itemDto -> {
             var product = productServicePort.getProductById(itemDto.productId())
@@ -43,7 +48,19 @@ public class CreateOrderUseCase {
                     new Money(product.price())
             );
             order.addItem(item);
+
+            shippingItems.add(new ShippingServicePort.ShippingItemInput(
+                    product.id(),
+                    itemDto.quantity(),
+                    product.width(),
+                    product.height(),
+                    product.length(),
+                    product.weight()
+            ));
         });
+
+        shippingServicePort.calculateShipping(input.zipCode(), shippingItems)
+                .ifPresent(quote -> order.setShippingPrice(new Money(quote.price())));
 
         Order savedOrder = orderRepository.save(order);
 

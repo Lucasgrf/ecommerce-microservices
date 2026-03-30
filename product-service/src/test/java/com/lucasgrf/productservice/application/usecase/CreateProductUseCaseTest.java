@@ -37,7 +37,8 @@ class CreateProductUseCaseTest {
     void shouldCreateProductSuccessfully() {
         String categoryId = CategoryId.generate().value();
         CreateProductInputDTO input = new CreateProductInputDTO(
-                "Camiseta", "Preta M", new BigDecimal("50.00"), categoryId, 10, List.of(), List.of("M")
+                "Camiseta", "Preta M", new BigDecimal("50.00"), categoryId, 10, List.of(), List.of("M"),
+                0.5, 10.0, 5.0, 15.0
         );
 
         when(categoryRepository.findById(any(CategoryId.class))).thenReturn(Optional.of(mock(com.lucasgrf.productservice.domain.entity.Category.class)));
@@ -58,7 +59,8 @@ class CreateProductUseCaseTest {
     void shouldThrowExceptionIfCategoryDoesNotExist() {
         String categoryId = CategoryId.generate().value();
         CreateProductInputDTO input = new CreateProductInputDTO(
-                "Camiseta", "Preta M", new BigDecimal("50.00"), categoryId, 10, List.of(), List.of("M")
+                "Camiseta", "Preta M", new BigDecimal("50.00"), categoryId, 10, List.of(), List.of("M"),
+                0.5, 10.0, 5.0, 15.0
         );
 
         when(categoryRepository.findById(any(CategoryId.class))).thenReturn(Optional.empty());

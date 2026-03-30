@@ -6,7 +6,6 @@ import com.lucasgrf.productservice.domain.entity.Category;
 import com.lucasgrf.productservice.domain.exception.DuplicateCategoryException;
 import com.lucasgrf.productservice.domain.repository.CategoryRepository;
 import com.lucasgrf.productservice.domain.valueobject.Slug;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -29,7 +28,7 @@ class CreateCategoryUseCaseTest {
     @Test
     void shouldCreateCategorySuccessfully() {
         CreateCategoryInputDTO input = new CreateCategoryInputDTO("Roupas", "Vestuário em geral");
-        
+
         when(categoryRepository.existsBySlug(any(Slug.class))).thenReturn(false);
         when(categoryRepository.save(any(Category.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
@@ -39,18 +38,18 @@ class CreateCategoryUseCaseTest {
         assertEquals("Roupas", output.name());
         assertEquals("roupas", output.slug());
         assertEquals("Vestuário em geral", output.description());
-        
+
         verify(categoryRepository, times(1)).save(any(Category.class));
     }
 
     @Test
     void shouldThrowExceptionWhenSlugAlreadyExists() {
         CreateCategoryInputDTO input = new CreateCategoryInputDTO("Roupas", "Vestuário em geral");
-        
+
         when(categoryRepository.existsBySlug(any(Slug.class))).thenReturn(true);
 
         assertThrows(DuplicateCategoryException.class, () -> createCategoryUseCase.execute(input));
-        
+
         verify(categoryRepository, never()).save(any(Category.class));
     }
 }

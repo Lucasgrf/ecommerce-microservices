@@ -22,5 +22,6 @@ public class OrderDocument {
     private List<OrderItemDocument> items;
     private String status;
     private BigDecimal total;
+    private BigDecimal shippingPrice;
     private String trackingCode;
 }

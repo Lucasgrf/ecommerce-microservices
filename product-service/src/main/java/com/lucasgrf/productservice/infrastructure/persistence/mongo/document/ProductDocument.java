@@ -22,6 +22,10 @@ public class ProductDocument {
     private int stock;
     private List<String> images;
     private List<String> variants;
+    private double weight;
+    private double width;
+    private double height;
+    private double length;
     private boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

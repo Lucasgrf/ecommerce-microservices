@@ -11,6 +11,10 @@ public record ProductResponseDTO(
         String categoryId,
         int stock,
         List<String> images,
-        boolean active
+        boolean active,
+        double weight,
+        double width,
+        double height,
+        double length
 ) {
 }

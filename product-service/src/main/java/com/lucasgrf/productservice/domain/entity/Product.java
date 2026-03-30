@@ -21,6 +21,10 @@ public class Product {
     private List<String> images;
     // For fashion products, variants could be size/color, keeping it simple as a list of strings for MVP (e.g. "XL", "M", "S")
     private List<String> variants;
+    private double weight; // em kg
+    private double width;  // em cm
+    private double height; // em cm
+    private double length; // em cm
     private boolean active;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

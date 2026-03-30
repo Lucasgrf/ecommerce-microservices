@@ -7,3 +7,8 @@ spring:
 
 product-service:
   url: http://localhost:8081
+
+melhor-envio:
+  url: https://www.melhorenvio.com.br
+  token: ${MELHOR_ENVIO_TOKEN:YOUR_MOCK_TOKEN}
+  from-zip-code: "58068390"

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 import org.springframework.context.annotation.Import;
 
+import java.math.BigDecimal;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -35,6 +36,7 @@ class OrderGatewayTest {
         OrderId orderId = new OrderId(UUID.randomUUID().toString());
         Address address = new Address("Street X", "City Y", "State Z", "00000-000");
         Order order = new Order(orderId, "cust_123", address);
+        order.setShippingPrice(new Money(new BigDecimal("15.00")));
 
         orderGateway.save(order);
 
@@ -44,5 +46,6 @@ class OrderGatewayTest {
         assertEquals(orderId, foundOrder.get().getId());
         assertEquals("cust_123", foundOrder.get().getCustomerId());
         assertEquals("PENDING_PAYMENT", foundOrder.get().getState().getName());
+        assertEquals(new BigDecimal("15.00"), foundOrder.get().getShippingPrice().amount());
     }
 }

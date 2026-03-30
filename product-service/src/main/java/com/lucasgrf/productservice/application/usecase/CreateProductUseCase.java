@@ -39,6 +39,10 @@ public class CreateProductUseCase {
                 .stock(input.stock())
                 .images(input.images())
                 .variants(input.variants())
+                .weight(input.weight())
+                .width(input.width())
+                .height(input.height())
+                .length(input.length())
                 .active(true)
                 .createdAt(LocalDateTime.now())
                 .build();

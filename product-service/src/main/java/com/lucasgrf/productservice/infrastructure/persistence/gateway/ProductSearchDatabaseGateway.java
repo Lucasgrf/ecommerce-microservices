@@ -65,6 +65,10 @@ public class ProductSearchDatabaseGateway implements ProductSearchRepository {
                         index.getStock(),
                         index.getImages(),
                         List.of(), // Variants aren't in elastic summary MVP
+                        index.getWeight(),
+                        index.getWidth(),
+                        index.getHeight(),
+                        index.getLength(),
                         index.isActive()
                 ))
                 .collect(Collectors.toList());

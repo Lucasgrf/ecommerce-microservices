@@ -45,6 +45,7 @@ public class OrderGateway implements OrderRepository {
                 .zipCode(order.getShippingAddress().zipCode())
                 .status(order.getState().getName())
                 .total(order.getTotal().amount())
+                .shippingPrice(order.getShippingPrice().amount())
                 .trackingCode(order.getTrackingCode() != null ? order.getTrackingCode().code() : null)
                 .items(order.getItems().stream()
                         .map(item -> OrderItemDocument.builder()
@@ -77,6 +78,10 @@ public class OrderGateway implements OrderRepository {
         
         if (doc.getTrackingCode() != null) {
             order.setTrackingCode(new TrackingCode(doc.getTrackingCode()));
+        }
+
+        if (doc.getShippingPrice() != null) {
+            order.setShippingPrice(new Money(doc.getShippingPrice()));
         }
 
         return order;

@@ -35,6 +35,18 @@ public class ProductIndex {
     @Field(type = FieldType.Keyword)
     private List<String> images;
 
+    @Field(type = FieldType.Double)
+    private double weight;
+
+    @Field(type = FieldType.Double)
+    private double width;
+
+    @Field(type = FieldType.Double)
+    private double height;
+
+    @Field(type = FieldType.Double)
+    private double length;
+
     @Field(type = FieldType.Boolean)
     private boolean active;
 }

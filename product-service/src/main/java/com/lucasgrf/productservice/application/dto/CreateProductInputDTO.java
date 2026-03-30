@@ -10,6 +10,10 @@ public record CreateProductInputDTO(
         String categoryId,
         int stock,
         List<String> images,
-        List<String> variants
+        List<String> variants,
+        double weight,
+        double width,
+        double height,
+        double length
 ) {
 }

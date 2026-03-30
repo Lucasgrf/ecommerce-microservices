@@ -13,6 +13,10 @@ public record ProductOutputDTO(
         int stock,
         List<String> images,
         List<String> variants,
+        double weight,
+        double width,
+        double height,
+        double length,
         boolean active
 ) {
     public static ProductOutputDTO from(Product product) {
@@ -25,6 +29,10 @@ public record ProductOutputDTO(
                 product.getStock(),
                 product.getImages(),
                 product.getVariants(),
+                product.getWeight(),
+                product.getWidth(),
+                product.getHeight(),
+                product.getLength(),
                 product.isActive()
         );
     }

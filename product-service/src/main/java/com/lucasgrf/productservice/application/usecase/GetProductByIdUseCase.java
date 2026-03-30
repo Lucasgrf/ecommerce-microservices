@@ -17,17 +17,7 @@ public class GetProductByIdUseCase {
 
     public ProductOutputDTO execute(String id) {
         return productRepository.findById(new ProductId(id))
-                .map(product -> new ProductOutputDTO(
-                        product.getId().value(),
-                        product.getName(),
-                        product.getDescription(),
-                        product.getPrice().amount(),
-                        product.getCategoryId() != null ? product.getCategoryId().value() : null,
-                        product.getStock(),
-                        product.getImages(),
-                        List.of(), // Variants skip for now
-                        product.isActive()
-                ))
+                .map(ProductOutputDTO::from)
                 .orElseThrow(() -> new ProductNotFoundException(id));
     }
 }

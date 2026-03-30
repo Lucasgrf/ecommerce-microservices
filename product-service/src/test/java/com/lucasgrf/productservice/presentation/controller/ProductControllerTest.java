@@ -39,10 +39,12 @@ class ProductControllerTest {
     @Test
     void shouldCreateProduct() throws Exception {
         CreateProductInputDTO input = new CreateProductInputDTO(
-                "Camiseta", "Preta M", new BigDecimal("50.00"), "cat_123", 10, List.of(), List.of("M")
+                "Camiseta", "Preta M", new BigDecimal("50.00"), "cat_123", 10, List.of(), List.of("M"),
+                0.2, 12.0, 4.0, 18.0
         );
         ProductOutputDTO output = new ProductOutputDTO(
-                "prod_123", "Camiseta", "Preta M", new BigDecimal("50.00"), "cat_123", 10, List.of(), List.of("M"), true
+                "prod_123", "Camiseta", "Preta M", new BigDecimal("50.00"), "cat_123", 10, List.of(), List.of("M"),
+                0.2, 12.0, 4.0, 18.0, true
         );
 
         when(createProductUseCase.execute(any(CreateProductInputDTO.class))).thenReturn(output);
