@@ -5,18 +5,18 @@ import com.lucasgrf.productservice.domain.repository.ProductRepository;
 import com.lucasgrf.productservice.domain.repository.ProductSearchRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 
 @SpringBootTest
 class ProductServiceApplicationTests {
 
-    @MockBean
+    @MockitoBean
     private ProductRepository productRepository;
 
-    @MockBean
+    @MockitoBean
     private CategoryRepository categoryRepository;
 
-    @MockBean
+    @MockitoBean
     private ProductSearchRepository productSearchRepository;
 
 	@Test

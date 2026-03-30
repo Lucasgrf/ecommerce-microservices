@@ -1,8 +1,6 @@
 package com.lucasgrf.productservice.application.dto;
 
 import com.lucasgrf.productservice.domain.entity.Category;
-import com.lucasgrf.productservice.domain.valueobject.CategoryId;
-import com.lucasgrf.productservice.domain.valueobject.Slug;
 
 public record CategoryOutputDTO(
         String id,

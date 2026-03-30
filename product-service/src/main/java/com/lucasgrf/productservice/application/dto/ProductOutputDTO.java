@@ -1,10 +1,6 @@
 package com.lucasgrf.productservice.application.dto;
 
 import com.lucasgrf.productservice.domain.entity.Product;
-import com.lucasgrf.productservice.domain.valueobject.CategoryId;
-import com.lucasgrf.productservice.domain.valueobject.Money;
-import com.lucasgrf.productservice.domain.valueobject.ProductId;
-
 import java.math.BigDecimal;
 import java.util.List;
 
