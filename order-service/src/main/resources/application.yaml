@@ -1,3 +1,9 @@
 spring:
   application:
     name: order-service
+  data:
+    mongodb:
+      uri: mongodb://localhost:27017/orders_db
+
+product-service:
+  url: http://localhost:8081

@@ -1,8 +1,11 @@
 package com.lucasgrf.orderservice.application.usecase;
 
 import com.lucasgrf.orderservice.application.dto.CreateOrderInputDTO;
+import com.lucasgrf.orderservice.application.dto.OrderEvent;
 import com.lucasgrf.orderservice.application.dto.OrderItemOutputDTO;
 import com.lucasgrf.orderservice.application.dto.OrderOutputDTO;
+import com.lucasgrf.orderservice.application.port.OrderEventPublisher;
+import com.lucasgrf.orderservice.application.port.ProductServicePort;
 import com.lucasgrf.orderservice.domain.entity.Order;
 import com.lucasgrf.orderservice.domain.entity.OrderItem;
 import com.lucasgrf.orderservice.domain.repository.OrderRepository;
@@ -21,6 +24,8 @@ import java.util.stream.Collectors;
 public class CreateOrderUseCase {
 
     private final OrderRepository orderRepository;
+    private final ProductServicePort productServicePort;
+    private final OrderEventPublisher orderEventPublisher;
 
     public OrderOutputDTO execute(CreateOrderInputDTO input) {
         OrderId orderId = new OrderId(UUID.randomUUID().toString());
@@ -29,11 +34,32 @@ public class CreateOrderUseCase {
         Order order = new Order(orderId, input.customerId(), address);
 
         input.items().forEach(itemDto -> {
-            OrderItem item = new OrderItem(itemDto.productId(), itemDto.quantity(), new Money(itemDto.price()));
+            var product = productServicePort.getProductById(itemDto.productId())
+                    .orElseThrow(() -> new RuntimeException("Product not found: " + itemDto.productId()));
+            
+            OrderItem item = new OrderItem(
+                    itemDto.productId(), 
+                    itemDto.quantity(), 
+                    new Money(product.price())
+            );
             order.addItem(item);
         });
 
         Order savedOrder = orderRepository.save(order);
+
+        // Publish Event
+        OrderEvent orderEvent = new OrderEvent(
+                savedOrder.getId().value(),
+                savedOrder.getCustomerId(),
+                savedOrder.getTotal().amount(),
+                savedOrder.getItems().stream()
+                        .map(i -> new OrderEvent.OrderEventItem(
+                                i.getProductId(),
+                                i.getQuantity(),
+                                i.getPrice().amount()))
+                        .collect(Collectors.toList())
+        );
+        orderEventPublisher.publish(orderEvent);
 
         List<OrderItemOutputDTO> itemOutputs = savedOrder.getItems().stream()
                 .map(i -> new OrderItemOutputDTO(

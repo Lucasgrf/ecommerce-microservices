@@ -4,6 +4,7 @@ import com.lucasgrf.productservice.application.dto.CreateProductInputDTO;
 import com.lucasgrf.productservice.application.dto.ProductOutputDTO;
 import com.lucasgrf.productservice.application.dto.ProductSearchCriteria;
 import com.lucasgrf.productservice.application.usecase.CreateProductUseCase;
+import com.lucasgrf.productservice.application.usecase.GetProductByIdUseCase;
 import com.lucasgrf.productservice.application.usecase.SearchProductsUseCase;
 import com.lucasgrf.productservice.presentation.dto.PageResponseDTO;
 import lombok.RequiredArgsConstructor;
@@ -20,11 +21,18 @@ public class ProductController {
 
     private final CreateProductUseCase createProductUseCase;
     private final SearchProductsUseCase searchProductsUseCase;
+    private final GetProductByIdUseCase getProductByIdUseCase;
 
     @PostMapping
     public ResponseEntity<ProductOutputDTO> createProduct(@RequestBody CreateProductInputDTO input) {
         ProductOutputDTO output = createProductUseCase.execute(input);
         return ResponseEntity.status(HttpStatus.CREATED).body(output);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<ProductOutputDTO> getProductById(@PathVariable String id) {
+        ProductOutputDTO output = getProductByIdUseCase.execute(id);
+        return ResponseEntity.ok(output);
     }
 
     @GetMapping("/search")

@@ -3,6 +3,9 @@ package com.lucasgrf.orderservice.application.usecase;
 import com.lucasgrf.orderservice.application.dto.CreateOrderInputDTO;
 import com.lucasgrf.orderservice.application.dto.OrderItemInputDTO;
 import com.lucasgrf.orderservice.application.dto.OrderOutputDTO;
+import com.lucasgrf.orderservice.application.dto.ProductResponseDTO;
+import com.lucasgrf.orderservice.application.port.OrderEventPublisher;
+import com.lucasgrf.orderservice.application.port.ProductServicePort;
 import com.lucasgrf.orderservice.domain.entity.Order;
 import com.lucasgrf.orderservice.domain.repository.OrderRepository;
 import org.junit.jupiter.api.Test;
@@ -13,6 +16,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -26,6 +30,12 @@ class CreateOrderUseCaseTest {
     @Mock
     private OrderRepository orderRepository;
 
+    @Mock
+    private ProductServicePort productServicePort;
+
+    @Mock
+    private OrderEventPublisher orderEventPublisher;
+
     @InjectMocks
     private CreateOrderUseCase createOrderUseCase;
 
@@ -36,6 +46,12 @@ class CreateOrderUseCaseTest {
                 List.of(new OrderItemInputDTO("prod_1", 2, new BigDecimal("50.00")))
         );
 
+        ProductResponseDTO productMock = new ProductResponseDTO(
+                "prod_1", "Product 1", "Desc", new BigDecimal("50.00"),
+                "cat_1", 10, List.of(), true
+        );
+
+        when(productServicePort.getProductById("prod_1")).thenReturn(Optional.of(productMock));
         when(orderRepository.save(any(Order.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         OrderOutputDTO output = createOrderUseCase.execute(input);
@@ -46,6 +62,8 @@ class CreateOrderUseCaseTest {
         assertEquals(new BigDecimal("100.00"), output.total());
         assertEquals(1, output.items().size());
 
+        verify(productServicePort).getProductById("prod_1");
         verify(orderRepository).save(any(Order.class));
+        verify(orderEventPublisher).publish(any());
     }
 }
