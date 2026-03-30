@@ -12,6 +12,8 @@ import com.lucasgrf.orderservice.infrastructure.persistence.mongo.document.Order
 import com.lucasgrf.orderservice.infrastructure.persistence.mongo.document.OrderItemDocument;
 import com.lucasgrf.orderservice.infrastructure.persistence.mongo.repository.OrderMongoRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
@@ -33,6 +35,16 @@ public class OrderGateway implements OrderRepository {
     @Override
     public Optional<Order> findById(OrderId id) {
         return mongoRepository.findById(id.value()).map(this::toDomain);
+    }
+
+    @Override
+    public Page<Order> findAll(Pageable pageable) {
+        return mongoRepository.findAll(pageable).map(this::toDomain);
+    }
+
+    @Override
+    public Page<Order> findByCustomerId(String customerId, Pageable pageable) {
+        return mongoRepository.findByCustomerId(customerId, pageable).map(this::toDomain);
     }
 
     private OrderDocument toDocument(Order order) {
