@@ -2,7 +2,6 @@ package com.lucasgrf.orderservice.application.usecase;
 
 import com.lucasgrf.orderservice.application.dto.OrderOutputDTO;
 import com.lucasgrf.orderservice.domain.entity.Order;
-import com.lucasgrf.orderservice.domain.entity.state.PendingPaymentState;
 import com.lucasgrf.orderservice.domain.repository.OrderRepository;
 import com.lucasgrf.orderservice.domain.valueobject.Address;
 import com.lucasgrf.orderservice.domain.valueobject.Money;
