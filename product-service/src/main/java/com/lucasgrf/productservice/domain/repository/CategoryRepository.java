@@ -13,4 +13,5 @@ public interface CategoryRepository {
     Optional<Category> findBySlug(Slug slug);
     boolean existsBySlug(Slug slug);
     List<Category> findAll();
+    void deleteById(CategoryId id);
 }
