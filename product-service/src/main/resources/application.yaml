@@ -5,12 +5,20 @@ spring:
   application:
     name: product-service
 
-  data:
-    mongodb:
-      uri: mongodb://localhost:27017/product_catalog
-      
-  elasticsearch:
-    uris: http://localhost:9200
+  datasource:
+    url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:ecommerce_db}
+    username: ${DB_USER:admin}
+    password: ${DB_PASSWORD:admin}
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: true
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
 
 # Confuração do Swagger/OpenAPI Design
 springdoc:

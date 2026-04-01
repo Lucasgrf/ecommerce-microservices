@@ -2,9 +2,8 @@ version: '3.8'
 
 services:
   # ---------------------------------------------------------------------------
-  # PostgreSQL (Bancos Relacionais)
-  # Usado por: user-service, product-service, order-service
-  # Por que? É robusto para dados transacionais (pedidos, pagamentos, usuarios)
+  # PostgreSQL (Relational DB)
+  # Used by: user-service, product-service, order-service
   # ---------------------------------------------------------------------------
   postgres:
     image: postgres:15-alpine
@@ -13,7 +12,6 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
-    # Portas mantidas para conectar via ferramentas externas (DBeaver/etc)
     ports:
       - "5433:5432"
     volumes:
@@ -32,32 +30,9 @@ services:
           cpus: '0.5'
 
   # ---------------------------------------------------------------------------
-  # MongoDB (Banco NoSQL)
-  # Usado por: product-catalog (leitura rápida), logs, carrinho (talvez)
-  # Por que? Flexível para dados que mudam muito de estrutura (ex: atributos de produtos)
-  # ---------------------------------------------------------------------------
-  mongo:
-    image: mongo:6.0
-    container_name: ecommerce-mongo
-    command: [ "--wiredTigerCacheSizeGB", "0.25" ]
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo_data:/data/db
-    networks:
-      - ecommerce-network
-    logging: *default-logging
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-          cpus: '0.5'
-
-  # ---------------------------------------------------------------------------
   # RabbitMQ (Message Broker)
-  # Usado por: todos os serviços para comunicação assíncrona
-  # Por que? Permite que o serviço de pedidos avise o estoque sem travar a requisição do usuário.
-  # A interface de gestão fica na porta 15672 (login: guest/guest)
+  # Used by: all services for async event communication
+  # Management UI at http://localhost:15672 (login: guest/guest)
   # ---------------------------------------------------------------------------
   rabbitmq:
     image: rabbitmq:3.11-management-alpine
@@ -75,29 +50,25 @@ services:
           cpus: '0.5'
 
   # ---------------------------------------------------------------------------
-  # ElasticSearch (Motor de Busca)
-  # Usado por: product-service
-  # Por que? Busca robusta no catálogo de produtos, filtros em tempo real.
+  # Redis (In-Memory Store)
+  # Used by: order-service (Shopping Cart), caching layer
   # ---------------------------------------------------------------------------
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.11.1
-    container_name: ecommerce-elasticsearch
-    environment:
-      - discovery.type=single-node
-      - xpack.security.enabled=false
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+  redis:
+    image: redis:7.2-alpine
+    container_name: ecommerce-redis
     ports:
-      - "9200:9200"
+      - "6379:6379"
     volumes:
-      - elasticsearch_data:/usr/share/elasticsearch/data
+      - redis_data:/data
+    command: redis-server --appendonly yes
     networks:
       - ecommerce-network
     logging: *default-logging
     deploy:
       resources:
         limits:
-          memory: 512M
-          cpus: '1.0'
+          memory: 256M
+          cpus: '0.25'
 
 networks:
   ecommerce-network:
@@ -105,5 +76,4 @@ networks:
 
 volumes:
   postgres_data:
-  mongo_data:
-  elasticsearch_data:
+  redis_data:
