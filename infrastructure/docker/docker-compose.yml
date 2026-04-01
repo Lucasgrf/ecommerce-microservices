@@ -70,6 +70,26 @@ services:
           memory: 256M
           cpus: '0.25'
 
+  # ---------------------------------------------------------------------------
+  # MailHog (Local SMTP Server & Web UI)
+  # Used by: notification-service for email testing
+  # Web UI: http://localhost:8025, SMTP: 1025
+  # ---------------------------------------------------------------------------
+  mailhog:
+    image: mailhog/mailhog:latest
+    container_name: ecommerce-mailhog
+    ports:
+      - "1025:1025"  # SMTP
+      - "8025:8025"  # Web UI
+    networks:
+      - ecommerce-network
+    logging: *default-logging
+    deploy:
+      resources:
+        limits:
+          memory: 256M
+          cpus: '0.25'
+
 networks:
   ecommerce-network:
     driver: bridge

@@ -4,6 +4,7 @@ import java.util.List;
 
 public record CreateOrderInputDTO(
                 String customerId,
+                String customerEmail,
                 String street,
                 String city,
                 String state,
