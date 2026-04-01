@@ -4,6 +4,12 @@ spring:
   data:
     mongodb:
       uri: mongodb://localhost:27017/orders_db
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+cart:
+  ttl-days: ${CART_TTL_DAYS:7}
 
 product-service:
   url: http://localhost:8081
