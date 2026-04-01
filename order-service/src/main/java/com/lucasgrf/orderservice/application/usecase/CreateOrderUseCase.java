@@ -69,6 +69,7 @@ public class CreateOrderUseCase {
         OrderEvent orderEvent = new OrderEvent(
                 savedOrder.getId().value(),
                 savedOrder.getCustomerId(),
+                input.customerEmail(),
                 savedOrder.getTotal().amount(),
                 savedOrder.getItems().stream()
                         .map(i -> new OrderEvent.OrderEventItem(

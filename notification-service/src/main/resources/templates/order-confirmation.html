@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Confirmation</title>
+    <style>
+        body {
+            font-family: 'Inter', 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background-color: #ffffff;
+            margin: 0 auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            overflow: hidden;
+        }
+        .header {
+            background-color: #1a1a1a;
+            color: #ffffff;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        .content {
+            padding: 30px 20px;
+        }
+        .content p {
+            font-size: 16px;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .order-summary {
+            background-color: #f4f6f8;
+            border-radius: 6px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .order-summary h2 {
+            margin-top: 0;
+            font-size: 18px;
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 10px;
+            margin-bottom: 15px;
+        }
+        .item-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+        .item-name {
+            font-weight: 500;
+        }
+        .item-details {
+            color: #666;
+            font-size: 14px;
+        }
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px solid #e0e0e0;
+            font-weight: 700;
+            font-size: 18px;
+            color: #1a1a1a;
+        }
+        .footer {
+            background-color: #f1f1f1;
+            padding: 20px;
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: #ffffff;
+            text-decoration: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            font-weight: 600;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 th:text="'Order Confirmation - ' + ${order.orderId}">Order Confirmation</h1>
+        </div>
+        <div class="content">
+            <p>Hi there,</p>
+            <p>Thank you for shopping with us! Your order has been successfully placed. Here are the details of your purchase:</p>
+
+            <div class="order-summary">
+                <h2>Order Summary</h2>
+                
+                <div th:each="item : ${order.items}" class="item-row">
+                    <div>
+                        <div class="item-name" th:text="${item.productId}">Product ID</div>
+                        <div class="item-details" th:text="'Quantity: ' + ${item.quantity}">Quantity: 1</div>
+                    </div>
+                    <div>
+                        <span th:text="${'$' + item.price}">$0.00</span>
+                    </div>
+                </div>
+
+                <div class="total-row">
+                    <span>Total Subtotal:</span>
+                    <span th:text="${'$' + order.total}">$0.00</span>
+                </div>
+            </div>
+
+            <p>We'll notify you as soon as your items ship.</p>
+        </div>
+        <div class="footer">
+            <p>&copy; 2026 E-commerce Microservices. All rights reserved.</p>
+        </div>
+    </div>
+</body>
+</html>

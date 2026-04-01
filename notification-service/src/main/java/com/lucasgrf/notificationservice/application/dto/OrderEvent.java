@@ -1,4 +1,4 @@
-package com.lucasgrf.orderservice.application.dto;
+package com.lucasgrf.notificationservice.application.dto;
 
 import java.math.BigDecimal;
 import java.util.List;

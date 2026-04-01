@@ -51,7 +51,7 @@ class CreateOrderUseCaseTest {
     @Test
     void shouldCreateOrder() {
         CreateOrderInputDTO input = new CreateOrderInputDTO(
-                "cust_1", "Rua X", "City Y", "SP", "00000-000",
+                "cust_1", "test@example.com", "Rua X", "City Y", "SP", "00000-000",
                 List.of(new OrderItemInputDTO("prod_1", 2, new BigDecimal("50.00")))
         );
 
