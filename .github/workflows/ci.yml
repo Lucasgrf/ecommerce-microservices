@@ -31,5 +31,6 @@ jobs:
       - name: Build and Test ${{ matrix.service }}
         run: |
           cd ${{ matrix.service }}
+          chmod +x ./mvnw
           ./mvnw clean verify
         # Testcontainers requires Docker, which is available on ubuntu-latest
