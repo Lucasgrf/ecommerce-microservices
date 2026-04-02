@@ -1,0 +1,151 @@
+
+services:
+  # ---------------------------------------------
+  # Dependencies
+  # ---------------------------------------------
+  postgres:
+    image: postgres:15-alpine
+    container_name: postgres_prod
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-ecommerce_user}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-ecommerce_password}
+      POSTGRES_DB: ecommerce_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - ecommerce-network
+
+  redis:
+    image: redis:7-alpine
+    container_name: redis_prod
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+    networks:
+      - ecommerce-network
+
+  rabbitmq:
+    image: rabbitmq:3-management-alpine
+    container_name: rabbitmq_prod
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-guest}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-guest}
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    restart: unless-stopped
+    networks:
+      - ecommerce-network
+
+  mongodb:
+    image: mongo:6
+    container_name: mongodb_prod
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    restart: unless-stopped
+    networks:
+      - ecommerce-network
+
+  # ---------------------------------------------
+  # Microservices
+  # ---------------------------------------------
+  api-gateway:
+    image: ${DOCKERHUB_USERNAME:-lucasgrf}/api-gateway:latest
+    container_name: api-gateway_prod
+    ports:
+      - "8080:8080"
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - user-service
+      - product-service
+      - order-service
+      - notification-service
+    restart: unless-stopped
+    networks:
+      - ecommerce-network
+
+  user-service:
+    image: ${DOCKERHUB_USERNAME:-lucasgrf}/user-service:latest
+    container_name: user-service_prod
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/ecommerce_db
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-ecommerce_user}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD:-ecommerce_password}
+      - JWT_SECRET=${JWT_SECRET}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - ecommerce-network
+
+  product-service:
+    image: ${DOCKERHUB_USERNAME:-lucasgrf}/product-service:latest
+    container_name: product-service_prod
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/ecommerce_db
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-ecommerce_user}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD:-ecommerce_password}
+      - SPRING_DATA_REDIS_HOST=redis
+      - SPRING_DATA_REDIS_PORT=6379
+    depends_on:
+      - postgres
+      - redis
+    restart: unless-stopped
+    networks:
+      - ecommerce-network
+
+  order-service:
+    image: ${DOCKERHUB_USERNAME:-lucasgrf}/order-service:latest
+    container_name: order-service_prod
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/ecommerce_db
+      - SPRING_DATASOURCE_USERNAME=${POSTGRES_USER:-ecommerce_user}
+      - SPRING_DATASOURCE_PASSWORD=${POSTGRES_PASSWORD:-ecommerce_password}
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_USERNAME=${RABBITMQ_USER:-guest}
+      - SPRING_RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-guest}
+    depends_on:
+      - postgres
+      - rabbitmq
+    restart: unless-stopped
+    networks:
+      - ecommerce-network
+
+  notification-service:
+    image: ${DOCKERHUB_USERNAME:-lucasgrf}/notification-service:latest
+    container_name: notification-service_prod
+    environment:
+      - SPRING_PROFILES_ACTIVE=prod
+      - SPRING_DATA_MONGODB_URI=mongodb://mongodb:27017/notifications
+      - SPRING_RABBITMQ_HOST=rabbitmq
+      - SPRING_RABBITMQ_USERNAME=${RABBITMQ_USER:-guest}
+      - SPRING_RABBITMQ_PASSWORD=${RABBITMQ_PASSWORD:-guest}
+      # Required for production email service
+      - SPRING_MAIL_HOST=${SMTP_HOST}
+      - SPRING_MAIL_PORT=${SMTP_PORT}
+      - SPRING_MAIL_USERNAME=${SMTP_USERNAME}
+      - SPRING_MAIL_PASSWORD=${SMTP_PASSWORD}
+    depends_on:
+      - mongodb
+      - rabbitmq
+    restart: unless-stopped
+    networks:
+      - ecommerce-network
+
+networks:
+  ecommerce-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  mongodb_data:

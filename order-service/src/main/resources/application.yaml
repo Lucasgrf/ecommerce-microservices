@@ -1,3 +1,96 @@
 spring:
   application:
     name: order-service
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb://localhost:27017/orders_db}
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+
+server:
+  port: ${ORDER_SERVICE_PORT:8084}
+
+cart:
+  ttl-days: ${CART_TTL_DAYS:7}
+
+product-service:
+  url: ${PRODUCT_SERVICE_URL:http://localhost:8082}
+
+melhor-envio:
+  url: https://www.melhorenvio.com.br
+  token: ${MELHOR_ENVIO_TOKEN:YOUR_MOCK_TOKEN}
+  from-zip-code: "58068390"
+
+mercadopago:
+  public-key: ${MP_PUBLIC_KEY:TEST-227b3b76-9746-4194-a43b-3a7a843c6151}
+  access-token: ${MP_ACCESS_TOKEN:TEST-6047899260133376-032922-50a97b0f595c2701748880a0324e2cda-3301269587}
+  notification-url: ${MP_NOTIFICATION_URL:http://localhost:8084/api/v1/payments/webhook}
+  back-urls:
+    success: ${MP_SUCCESS_URL:http://localhost:3000/payment/success}
+    failure: ${MP_FAILURE_URL:http://localhost:3000/payment/failure}
+    pending: ${MP_PENDING_URL:http://localhost:3000/payment/pending}
+
+# Resilience4j Configuration
+resilience4j:
+  circuitbreaker:
+    instances:
+      productService:
+        slidingWindowSize: 10
+        failureRateThreshold: 50
+        waitDurationInOpenState: 10s
+        permittedNumberOfCallsInHalfOpenState: 3
+        registerHealthIndicator: true
+      shippingService:
+        slidingWindowSize: 5
+        failureRateThreshold: 50
+        waitDurationInOpenState: 15s
+        permittedNumberOfCallsInHalfOpenState: 2
+        registerHealthIndicator: true
+  retry:
+    instances:
+      productService:
+        maxAttempts: 3
+        waitDuration: 500ms
+        enableExponentialBackoff: true
+        exponentialBackoffMultiplier: 2
+      shippingService:
+        maxAttempts: 2
+        waitDuration: 1s
+  timelimiter:
+    instances:
+      productService:
+        timeoutDuration: 3s
+      shippingService:
+        timeoutDuration: 5s
+
+# Swagger/OpenAPI
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+# Observability
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+  health:
+    circuitbreakers:
+      enabled: true
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: 0.1.0
+    description: E-commerce Microservices Platform - Order Service

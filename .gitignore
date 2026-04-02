@@ -27,3 +27,15 @@ replay_pid*
 .idea
 .vscode
 
+# Build output
+target/
+
+# Environment & secrets
+.env
+Rules.md
+
+# Debug/test output files
+*.txt
+*.sh
+!mvnw
+!mvnw.cmd

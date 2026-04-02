@@ -16,7 +16,7 @@
 | PB-002 | Cadastro de usuários (`/register`) | 2 dias |
 | PB-003 | Login e JWT (`/login`) | 2 dias |
 | PB-004 | Configuração de Segurança (Spring Security) | 2 dias |
-| PB-025 | Configuração básica do API Gateway | 1 day |
+| PB-025 | Configuração básica do API Gateway | 1 dia |
 | **Meta** | Ambiente rodando e autenticação funcionando via Postman. | **8.5 dias** |
 
 ---
@@ -43,7 +43,7 @@
 | PB-011 | Controle de Baixa de Estoque (comunicação síncrona/assíncrona) | 2 dias |
 | PB-013 | Carrinho de Compras (Redis/Mongo) | 3 dias |
 | PB-014 | Criação do Pedido (Checkout Básico - Mock Pagamento) | 4 dias |
-| **Meta** | Cliente consegue colocar itens no carrinho e gerar um pedido "Pendente". | **9.5 dias** |
+| **Meta** | Cliente consegue colocar itens no carrinho e gerar um pedido "Conclu�do". | **9.5 dias** |
 
 ---
 
@@ -91,9 +91,10 @@
 
 | Sprint | Foco | Status |
 |--------|------|--------|
-| **Sprint 1** | Auth & Setup | ⬜ Pendente |
-| **Sprint 2** | Catálogo | ⬜ Pendente |
-| **Sprint 3** | Carrinho & Pedidos | ⬜ Pendente |
-| **Sprint 4** | Pagamento & Frete | ⬜ Pendente |
-| **Sprint 5** | Notificações | ⬜ Pendente |
-| **Sprint 6** | Deploy AWS | ⬜ Pendente |
+| **Sprint 1** | Auth, Gateway & Setup | ✅ Concluído |
+| **Sprint 2** | Catálogo (Base SDK) | ✅ Concluído (Base Architectured) |
+| **Sprint 3** | Carrinho & Pedidos | ✅ Concluído (Messaging Architectured) |
+| **Sprint 4** | Pagamento & Frete | 🚧 Conclu�do |
+| **Sprint 5** | Notificações | ✅ Concluído |
+| **Sprint 6** | Deploy AWS CI/CD | ✅ Concluído |
+

@@ -73,3 +73,4 @@ O que foi feito? Ex: Implementei o endpoint de cadastro...
 - **Review Obrigatório**: Pelo menos 1 aprovação para merge em `develop` ou `main`.
 - **CI Passing**: Todos os checks do GitHub Actions (Build + Tests) devem passar.
 - **Sem Commits de Merge**: Use `Rebase` ou `Squash` para manter o histórico limpo.
+
