@@ -1,21 +1,21 @@
 server:
-  port: 8083
+  port: ${NOTIFICATION_SERVICE_PORT:8083}
 
 spring:
   application:
     name: notification-service
 
   rabbitmq:
-    host: localhost
-    port: 5672
-    username: guest
-    password: guest
+    host: ${RABBITMQ_HOST:localhost}
+    port: ${RABBITMQ_PORT:5672}
+    username: ${RABBITMQ_USER:guest}
+    password: ${RABBITMQ_PASS:guest}
 
   mail:
-    host: localhost
-    port: 1025
-    username: ecommerce@test.com
-    password: 
+    host: ${SMTP_HOST:localhost}
+    port: ${SMTP_PORT:1025}
+    username: ${SMTP_USERNAME:ecommerce@test.com}
+    password: ${SMTP_PASSWORD:}
     properties:
       mail:
         smtp:
@@ -29,6 +29,32 @@ spring:
     suffix: .html
     mode: HTML
 
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: when-authorized
+      probes:
+        enabled: true
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: ${spring.application.name}
+    version: 0.1.0
+    description: E-commerce Microservices Platform - Notification Service
+
 logging:
   level:
-    com.lucasgrf.notificationservice: DEBUG
+    com.lucasgrf.notificationservice: INFO

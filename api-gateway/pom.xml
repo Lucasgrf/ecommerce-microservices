@@ -12,7 +12,7 @@
 	<artifactId>api-gateway</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>api-gateway</name>
-	<description>Demo project for Spring Boot</description>
+	<description>E-commerce Microservices - API Gateway: Centralized JWT authentication, routing, and Zero-Trust security</description>
 	<url/>
 	<licenses>
 		<license/>

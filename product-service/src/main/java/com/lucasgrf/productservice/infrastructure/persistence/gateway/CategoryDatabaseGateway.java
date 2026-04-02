@@ -8,6 +8,8 @@ import com.lucasgrf.productservice.infrastructure.persistence.entity.CategoryEnt
 import com.lucasgrf.productservice.infrastructure.persistence.mapper.CategoryMapper;
 import com.lucasgrf.productservice.infrastructure.persistence.repository.JpaCategoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -21,6 +23,7 @@ public class CategoryDatabaseGateway implements CategoryRepository {
     private final JpaCategoryRepository jpaRepository;
 
     @Override
+    @CacheEvict(value = "categories", allEntries = true)
     public Category save(Category category) {
         CategoryEntity entity = CategoryMapper.toEntity(category);
         CategoryEntity saved = jpaRepository.save(entity);
@@ -45,6 +48,7 @@ public class CategoryDatabaseGateway implements CategoryRepository {
     }
 
     @Override
+    @Cacheable(value = "categories")
     public List<Category> findAll() {
         return jpaRepository.findAll().stream()
                 .map(CategoryMapper::toDomain)
@@ -52,6 +56,7 @@ public class CategoryDatabaseGateway implements CategoryRepository {
     }
 
     @Override
+    @CacheEvict(value = "categories", allEntries = true)
     public void deleteById(CategoryId id) {
         jpaRepository.deleteById(java.util.UUID.fromString(id.value()));
     }

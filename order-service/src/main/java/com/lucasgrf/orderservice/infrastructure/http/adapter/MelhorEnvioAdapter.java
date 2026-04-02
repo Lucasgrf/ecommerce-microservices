@@ -5,7 +5,10 @@ import com.lucasgrf.orderservice.application.port.ShippingServicePort;
 import com.lucasgrf.orderservice.infrastructure.http.client.MelhorEnvioClient;
 import com.lucasgrf.orderservice.infrastructure.http.client.dto.MelhorEnvioCalculateRequest;
 import com.lucasgrf.orderservice.infrastructure.http.client.dto.MelhorEnvioCalculateResponse;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -14,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class MelhorEnvioAdapter implements ShippingServicePort {
@@ -27,6 +31,8 @@ public class MelhorEnvioAdapter implements ShippingServicePort {
     private String fromZipCode;
 
     @Override
+    @CircuitBreaker(name = "shippingService", fallbackMethod = "calculateShippingFallback")
+    @Retry(name = "shippingService")
     public Optional<ShippingQuoteDTO> calculateShipping(String toZipCode, List<ShippingItemInput> items) {
         MelhorEnvioCalculateRequest request = new MelhorEnvioCalculateRequest(
                 new MelhorEnvioCalculateRequest.PostalCode(fromZipCode),
@@ -42,22 +48,25 @@ public class MelhorEnvioAdapter implements ShippingServicePort {
                 )).collect(Collectors.toList())
         );
 
-        try {
-            List<MelhorEnvioCalculateResponse> responses = melhorEnvioClient.calculateShipping("Bearer " + token, request);
+        List<MelhorEnvioCalculateResponse> responses = melhorEnvioClient.calculateShipping("Bearer " + token, request);
 
-            return responses.stream()
-                    .filter(res -> res.error() == null)
-                    .min(Comparator.comparing(MelhorEnvioCalculateResponse::price))
-                    .map(res -> new ShippingQuoteDTO(
-                            String.valueOf(res.id()),
-                            res.name(),
-                            res.price(),
-                            res.deliveryTime(),
-                            res.company().name()
-                    ));
-        } catch (Exception e) {
-            // In a real scenario, log the error and maybe return empty or a default value
-            return Optional.empty();
-        }
+        return responses.stream()
+                .filter(res -> res.error() == null)
+                .min(Comparator.comparing(MelhorEnvioCalculateResponse::price))
+                .map(res -> new ShippingQuoteDTO(
+                        String.valueOf(res.id()),
+                        res.name(),
+                        res.price(),
+                        res.deliveryTime(),
+                        res.company().name()
+                ));
+    }
+
+    @SuppressWarnings("unused") // Invoked by Resilience4j via reflection
+    private Optional<ShippingQuoteDTO> calculateShippingFallback(String toZipCode,
+            List<ShippingItemInput> items, Throwable throwable) {
+        log.warn("ShippingService circuit open or retry exhausted for zipCode={}. Cause: {}",
+                toZipCode, throwable.getMessage());
+        return Optional.empty();
     }
 }

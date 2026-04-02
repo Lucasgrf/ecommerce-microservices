@@ -1,5 +1,5 @@
 server:
-  port: 8080
+  port: ${GATEWAY_PORT:8080}
 
 spring:
   application:
@@ -7,32 +7,66 @@ spring:
   cloud:
     gateway:
       routes:
+        # -----------------------------------------------------------------------
+        # User Service Routes
+        # -----------------------------------------------------------------------
         - id: user-service-auth-route
-          uri: http://localhost:8081
+          uri: ${USER_SERVICE_URL:http://localhost:8081}
           predicates:
             - Path=/api/v1/auth/**, /v3/api-docs/**, /swagger-ui/**, /api-docs/**
             
         - id: user-service-secure-route
-          uri: http://localhost:8081
+          uri: ${USER_SERVICE_URL:http://localhost:8081}
           predicates:
             - Path=/api/v1/user/**
           filters:
             - JwtAuthentication
 
+        # -----------------------------------------------------------------------
+        # Product Service Routes
+        # -----------------------------------------------------------------------
         - id: product-service-route
-          uri: http://localhost:8082
+          uri: ${PRODUCT_SERVICE_URL:http://localhost:8082}
           predicates:
             - Path=/api/v1/products/**
-            
+
+        - id: product-service-categories-route
+          uri: ${PRODUCT_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/v1/categories/**
+
+        - id: product-service-stock-route
+          uri: ${PRODUCT_SERVICE_URL:http://localhost:8082}
+          predicates:
+            - Path=/api/v1/stock/**
+
+        # -----------------------------------------------------------------------
+        # Order Service Routes
+        # -----------------------------------------------------------------------
         - id: order-service-route
-          uri: http://localhost:8084
+          uri: ${ORDER_SERVICE_URL:http://localhost:8084}
           predicates:
             - Path=/api/v1/orders/**
           filters:
             - JwtAuthentication
 
+        - id: order-service-cart-route
+          uri: ${ORDER_SERVICE_URL:http://localhost:8084}
+          predicates:
+            - Path=/api/v1/cart/**
+          filters:
+            - JwtAuthentication
+
+        - id: order-service-payments-route
+          uri: ${ORDER_SERVICE_URL:http://localhost:8084}
+          predicates:
+            - Path=/api/v1/payments/**
+
+        # -----------------------------------------------------------------------
+        # Notification Service Routes
+        # -----------------------------------------------------------------------
         - id: notification-service-route
-          uri: http://localhost:8083
+          uri: ${NOTIFICATION_SERVICE_URL:http://localhost:8083}
           predicates:
             - Path=/api/v1/notifications/**
           filters:
@@ -40,4 +74,4 @@ spring:
 
 security:
   jwt:
-    secret-key: "mySecretKeyMySecretKeyMySecretKeyMySecretKey"
+    secret-key: ${JWT_SECRET:mySecretKeyMySecretKeyMySecretKeyMySecretKey}
