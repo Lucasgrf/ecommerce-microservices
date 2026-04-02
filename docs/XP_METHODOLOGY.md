@@ -38,3 +38,4 @@ A gente faz isso em Sprints pra não virar madrugadas a fio bolando código corr
 4. Refatorar tudo, botar uns padrões legais e deixar limpo.
 5. Atualizar o Swagger/OpenAPI se rolar rota nova (Aquele lance do SDD).
 6. Fazer a PR (Pull Request) / Meter o Merge suave.
+

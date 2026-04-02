@@ -1,17 +1,18 @@
 # 🛍️ E-commerce Microservices
 
-> **Status do Projeto**: 🚧 Em Desenvolvimento (Sprint 1)
+> **Status do Projeto**: 🎉 Completo (Todos os Serviços Implementados e Kubernetes/Cloud Ready)
 
-Sistema de E-commerce escalável construído com arquitetura de Microserviços, focado em boas práticas de engenharia de software, alta performance e separação de responsabilidades.
+Sistema de E-commerce escalável construído com arquitetura de Microserviços, focado em boas práticas de engenharia de software, alta performance e separação de responsabilidades (Clean Architecture e DDD).
 
 ## 🚀 Tecnologias
 
 - **Linguagem**: Java 17
 - **Framework**: Spring Boot 3.x
 - **Bancos de Dados**: PostgreSQL (Relacional), MongoDB (NoSQL)
+- **Cache**: Redis
 - **Mensageria**: RabbitMQ
-- **Infraestrutura**: Docker & Docker Compose
-- **Segurança**: Spring Security & JWT (OAuth2 flow planned)
+- **Infraestrutura**: Docker Multi-stage & GitHub Actions (CI/CD)
+- **Segurança**: API Gateway com JJWT e Propagação de Headers de Autenticação Interna (Zero Trust)
 
 ## 📂 Estrutura do Projeto
 
@@ -19,48 +20,47 @@ O projeto é organizado como um monorepo contendo os seguintes serviços e docum
 
 ```bash
 ecommerce-microservices/
-├── api-gateway/        # Porta de entrada (Routing & Security) [TODO]
-├── user-service/       # Gestão de Usuários e Autenticação [EM PROGRESSO]
-├── product-service/    # Catálogo de Produtos [TODO]
-├── order-service/      # Gestão de Pedidos [TODO]
-├── infrastructure/     # Configurações de Deploy Local (Docker)
-└── docs/               # Documentação do Projeto
+├── api-gateway/          # Porta de entrada com JWT WebFilter (Routing & Security) [COMPLETO]
+├── user-service/         # Gestão de Usuários e Perfis [COMPLETO]
+├── product-service/      # Catálogo de Produtos e Caching (Redis) [COMPLETO]
+├── order-service/        # Processamento e Fechamento de Pedidos (Mensageria) [COMPLETO]
+├── notification-service/ # Envio Assíncrono de E-mails via RabbitMQ [COMPLETO]
+├── infrastructure/       # Configuração de Deploy Local & Produção (Docker)
+└── docs/                 # Documentação Abrangente do Projeto
 ```
 
 ## 📚 Documentação e Planejamento
 
-- [📋 Kanban Board](docs/KANBAN.md) - Acompanhamento em tempo real das tarefas.
-- [🗓️ Sprints Roadmap](docs/SPRINTS.md) - Planejamento detalhado de cada fase.
+- [📋 Kanban Board](docs/KANBAN.md) - Progresso e tarefas consolidadas.
+- [🗓️ Sprints Roadmap](docs/SPRINTS.md) - Roteiro de entregas iterativas.
+- [📝 Implementation Plan](docs/ECOMMERCE_IMPLEMENTATION_PLAN.md) - Manual extenso de arquitetura.
 
-## 🛠️ Como rodar o projeto localmente
+## 🛠️ Como rodar o projeto
 
 ### Pré-requisitos
 - Docker & Docker Compose
 - Java 17+
 - Maven (Opcional, `mvnw` incluso)
 
-### 1. Subir a Infraestrutura (Bancos e Broker)
-Execute o comando abaixo para iniciar Postgres, Mongo e RabbitMQ Otimizados:
+### 1. Subir Localmente (Desenvolvimento)
+Execute o comando abaixo para iniciar todas as dependências (Postgres, Mongo, RabbitMQ, Redis, Mailhog) na sua máquina:
 
 ```bash
 docker-compose -f infrastructure/docker/docker-compose.yml up -d
 ```
+Após isso, você pode levantar cada serviço via `./mvnw spring-boot:run`.
 
-### 2. Rodar os Serviços
-Cada serviço possui seu próprio diretório. Navegue até o serviço desejado e execute:
-
+### 2. Deploy em Produção (AWS Free Tier / EC2)
+Existe um Pipeline CI/CD em `.github/workflows/cd.yml` programado para compilar os serviços e fazer o push para o EC2. Ou, via terminal:
 ```bash
-cd user-service
-./mvnw spring-boot:run
+docker-compose -f infrastructure/docker/docker-compose.prod.yml up -d
 ```
 
-## 🤝 Contribuição (Gitflow)
+## 🤝 Repositório e Fluxo
 
 Este projeto segue o fluxo **Gitflow**.
-- `main`: Produção (Estável).
-- `develop`: Desenvolvimento (Integração).
-- `feat/`: Novas funcionalidades.
-- `fix/`: Correções na develop.
+- `main`: Produção (Build Docker nativo e AWS CI/CD).
+- `develop`: Desenvolvimento Contínuo e Integração.
 
 ---
 Desenvolvido por **Lucas**

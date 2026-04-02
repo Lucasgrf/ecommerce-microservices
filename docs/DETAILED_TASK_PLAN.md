@@ -58,3 +58,4 @@ Agora o foco é o `product-service`. A gente precisa entregar o Caso de Uso UC02
   1. Desenhar a interface do Controller definindo endpoints de listagem paginada (`GET /api/v1/products`) e detalhes (`GET /api/v1/products/{id}`).
   2. Documentar filtros (`?category=X`, `?priceMax=Y`) e DTOs de retorno (fotos, variações de cor/tamanho).
   3. Checar a UI do Swagger na 8082 pra ver se o contrato tá certinho.
+

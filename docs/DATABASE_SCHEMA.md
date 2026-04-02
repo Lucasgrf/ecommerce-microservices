@@ -120,3 +120,4 @@ erDiagram
         TIMESTAMP paid_at
     }
 ```
+

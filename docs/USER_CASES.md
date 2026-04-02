@@ -43,3 +43,4 @@ Os casos de uso foram divididos em diretórios individuais para melhor organiza�
 | EXC01 | Estoque insuficiente no Checkout | Informar usuário e impedir finalização |
 | EXC02 | Pagamento Recusado | Manter pedido como "Aguardando", notificar cliente para tentar outro meio |
 | EXC03 | Falha no Cálculo de Frete | Exibir mensagem de erro e pedir para tentar novamente (ou oferecer frete fixo de contingência) |
+

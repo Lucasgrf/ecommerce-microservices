@@ -21,7 +21,7 @@ Os Épicos agrupam funcionalidades por domínio de negócio, mapeando diretament
 
 ---
 
-## 📝 Detalhamento dos Épicos
+## 📝 DetalhamenDones Épicos
 
 ### E01 - Gestão de Identidade e Acesso (IAM)
 **Objetivo**: Permitir que clientes se cadastrem/loguem e admins gerenciem usuários.  
@@ -56,7 +56,7 @@ Os Épicos agrupam funcionalidades por domínio de negócio, mapeando diretament
 - [ ] Implementar Carrinho de Compras (Redis ou Persistido no Mongo)
 - [ ] Criação de Pedido (Checkout)
 - [ ] Histórico de Pedidos do Cliente
-- [ ] Gestão de Status de Pedidos (Admin: Pendente -> Pago -> Enviado -> Entregue)
+- [ ] Gestão de Status de Pedidos (Admin: Conclu�do -> Pago -> Enviado -> Entregue)
 
 ---
 
@@ -94,3 +94,4 @@ Os Épicos agrupam funcionalidades por domínio de negócio, mapeando diretament
 - [ ] Pipeline CI/CD (GitHub Actions)
 - [ ] Provisionamento AWS (EC2, RDS ou Containers)
 - [ ] Monitoramento Básico (Logs e Health Checks)
+

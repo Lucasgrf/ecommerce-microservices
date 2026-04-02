@@ -37,3 +37,4 @@ Sempre que a gente for fazer uma funcionalidade nova na API, o roteiro é esse:
 1. **Nunca mude o contrato sem avisar.** Quebrou a resposta? Faz uma versão nova (tipo `/api/v2/...`). Na moral, não quebra quem já tá consumindo.
 2. **Documentação tem que ser atualizada.** Todo endpoint tem que ter os possíveis retornos documentados (200, 400, 401...).
 3. Nenhuma feature tá "Pronta" se o Swagger tá mentindo sobre o que o código faz de verdade.
+

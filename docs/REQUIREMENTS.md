@@ -241,3 +241,4 @@ Plataforma de e-commerce especializada em moda (roupas, tênis e bolsas), constr
 | Versão | Data | Autor | Descrição |
 |--------|------|-------|-----------|
 | 1.0 | 23/12/2024 | Lucas | Versão inicial do documento |
+
