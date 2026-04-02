@@ -4,7 +4,10 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.lucasgrf.productservice.application.dto.CreateProductInputDTO;
 import com.lucasgrf.productservice.application.dto.ProductOutputDTO;
 import com.lucasgrf.productservice.application.usecase.CreateProductUseCase;
+import com.lucasgrf.productservice.application.usecase.GetProductByIdUseCase;
 import com.lucasgrf.productservice.application.usecase.SearchProductsUseCase;
+import com.lucasgrf.productservice.application.usecase.UpdateProductUseCase;
+import com.lucasgrf.productservice.application.usecase.DeleteProductUseCase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -35,6 +38,15 @@ class ProductControllerTest {
 
     @MockitoBean
     private SearchProductsUseCase searchProductsUseCase;
+
+    @MockitoBean
+    private GetProductByIdUseCase getProductByIdUseCase;
+
+    @MockitoBean
+    private UpdateProductUseCase updateProductUseCase;
+
+    @MockitoBean
+    private DeleteProductUseCase deleteProductUseCase;
 
     @Test
     void shouldCreateProduct() throws Exception {
