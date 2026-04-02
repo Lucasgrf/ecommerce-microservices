@@ -14,10 +14,16 @@ public class User {
     private final UserId id;
     private final Email email;
     private final Password password;
-    private final String name;
+    private String name;
     private final UserRole role;
     private final LocalDateTime createdAt;
     private boolean active;
+
+    public void updateName(String newName) {
+        if (newName != null && !newName.trim().isEmpty()) {
+            this.name = newName;
+        }
+    }
 
     public void activate() {
         this.active = true;

@@ -44,6 +44,7 @@ public class OrderController {
     }
 
     @PatchMapping("/{id}/status")
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<OrderOutputDTO> updateStatus(
             @PathVariable String id,
             @RequestBody UpdateOrderStatusInputDTO input

@@ -1,7 +1,10 @@
 spring:
   application:
     name: order-service
-  data:
+server:
+  port: 8084
+  
+data:
     mongodb:
       uri: mongodb://localhost:27017/orders_db
     redis:
