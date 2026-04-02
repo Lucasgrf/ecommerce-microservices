@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.lucasgrf</groupId>
 	<artifactId>user-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>user-service</name>
 	<description>E-commerce Microservices - User Service: Registration, Authentication (JWT), and Profile management</description>
 	<url/>

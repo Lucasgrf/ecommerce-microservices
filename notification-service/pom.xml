@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.lucasgrf</groupId>
 	<artifactId>notification-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>notification-service</name>
 	<description>E-commerce Microservices - Notification Service: Async email notifications via RabbitMQ and Thymeleaf templates</description>
 	<url/>

@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>com.lucasgrf</groupId>
 	<artifactId>product-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>product-service</name>
 	<description>E-commerce Microservices - Product Service: Catalog management, stock control, and Redis caching</description>
 	<url/>
